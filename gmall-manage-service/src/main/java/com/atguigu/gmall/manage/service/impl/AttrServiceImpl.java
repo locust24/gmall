@@ -11,6 +11,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,7 +31,25 @@ public class AttrServiceImpl implements AttrService {
     public List<PmsBaseAttrInfo> attrInfoList(String catalog3Id) {
         PmsBaseAttrInfo pmsBaseAttrInfo = new PmsBaseAttrInfo();
         pmsBaseAttrInfo.setCatalog3Id(catalog3Id);
-        return pmsBaseAttrInfoMapper.select(pmsBaseAttrInfo);
+        List<PmsBaseAttrInfo> pmsBaseAttrInfos = pmsBaseAttrInfoMapper.select(pmsBaseAttrInfo);
+
+        // 根据BaseAttrInfo的ID获取BaseAttrValue属性值
+        PmsBaseAttrValue pmsBaseAttrValue = new PmsBaseAttrValue();
+        for (PmsBaseAttrInfo baseAttrInfo : pmsBaseAttrInfos) {
+            List<PmsBaseAttrValue> baseAttrValues = new ArrayList<>();
+
+            pmsBaseAttrValue.setAttrId(baseAttrInfo.getId());
+
+            List<PmsBaseAttrValue> pmsBaseAttrValues = pmsBaseAttrValueMapper.select(pmsBaseAttrValue);
+
+            for (PmsBaseAttrValue baseAttrValue : pmsBaseAttrValues) {
+                baseAttrValues.add(baseAttrValue);
+            }
+
+            baseAttrInfo.setAttrValueList(baseAttrValues);
+        }
+
+        return pmsBaseAttrInfos;
     }
 
     @Override
