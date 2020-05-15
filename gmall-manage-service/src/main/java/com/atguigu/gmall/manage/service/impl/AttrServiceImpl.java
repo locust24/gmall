@@ -3,16 +3,18 @@ package com.atguigu.gmall.manage.service.impl;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.atguigu.gmall.bean.PmsBaseAttrInfo;
 import com.atguigu.gmall.bean.PmsBaseAttrValue;
+import com.atguigu.gmall.bean.PmsBaseSaleAttr;
 import com.atguigu.gmall.manage.mapper.PmsBaseAttrInfoMapper;
 import com.atguigu.gmall.manage.mapper.PmsBaseAttrValueMapper;
+import com.atguigu.gmall.manage.mapper.PmsBaseSaleAttrMapper;
 import com.atguigu.gmall.service.AttrService;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author leizi
@@ -26,6 +28,9 @@ public class AttrServiceImpl implements AttrService {
 
     @Autowired
     PmsBaseAttrValueMapper pmsBaseAttrValueMapper;
+
+    @Autowired
+    PmsBaseSaleAttrMapper pmsBaseSaleAttrMapper;
 
     @Override
     public List<PmsBaseAttrInfo> attrInfoList(String catalog3Id) {
@@ -88,6 +93,19 @@ public class AttrServiceImpl implements AttrService {
         }
 
         return "success";
+    }
+
+    @Override
+    public List<PmsBaseSaleAttr> baseSaleAttrList() {
+        return pmsBaseSaleAttrMapper.selectAll();
+    }
+
+    @Override
+    public List<PmsBaseAttrInfo> getAttrValueListByValueId(Set<String> valueIdSet) {
+        //41,45,46
+        String valueIdStr = StringUtils.join(valueIdSet, ",");
+        List<PmsBaseAttrInfo> pmsBaseAttrInfos = pmsBaseAttrInfoMapper.selectAttrValueListByValueId(valueIdStr);
+        return pmsBaseAttrInfos;
     }
 
     /**

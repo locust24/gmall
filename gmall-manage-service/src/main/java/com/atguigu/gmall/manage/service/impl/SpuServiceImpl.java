@@ -88,6 +88,20 @@ public class SpuServiceImpl implements SpuService {
         return pmsProductImageMapper.select(pmsProductImage);
     }
 
+    /**
+     * item页面-销售属性列表
+     *
+     * @param productId
+     * @return
+     */
+    @Override
+    public List<PmsProductSaleAttr> spuSaleAttrListCheckBySku(String productId, String skuId) {
+
+        List<PmsProductSaleAttr> pmsProductSaleAttrs = pmsProductSaleAttrMapper.selectSpuSaleAttrListCheckBySku(productId, skuId);
+
+        return pmsProductSaleAttrs;
+    }
+
     @Override
     public List<PmsProductSaleAttr> spuSaleAttrList(String spuId) {
         PmsProductSaleAttr pmsProductSaleAttr = new PmsProductSaleAttr();
