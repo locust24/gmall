@@ -7,7 +7,6 @@ import tk.mybatis.spring.annotation.MapperScan;
 
 @SpringBootApplication
 @EnableDubbo
-@MapperScan(basePackages = "com.auguigu.gmall")
 public class GmallSearchServiceApplication {
 
 	public static void main(String[] args) {
